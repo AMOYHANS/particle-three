@@ -2,6 +2,8 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import GUI from 'three/examples/jsm/libs/lil-gui.module.min'
+import vertexShaderSource from './shaders/vertex.glsl'
+import fragmentShaderSource from './shaders/fragment.glsl'
 
 const scene = new THREE.Scene()
 
@@ -59,25 +61,21 @@ function generatedPoints(){
 }
 
 generatedPoints()
-const pointMat = new THREE.PointsMaterial({
-  color: 'white',
-  map: texture,
-  sizeAttenuation: true,
-  size: 0.05,
+const pointMat = new THREE.ShaderMaterial({
   transparent: true,
-  alphaMap: texture,
   blending: THREE.AdditiveBlending,
-  alphaTest: 0.1,
-  vertexColors: true
+  vertexColors: true,
+  vertexShader: vertexShaderSource,
+  fragmentShader: fragmentShaderSource,
 })
 const pointMesh = new THREE.Points(pointGeo, pointMat)
 scene.add(pointMesh)
 
 const gui = new GUI()
-gui.add(pointMat, 'size').min(0.1).max(0.5)
-gui.add(debugObj, 'maxLength').min(1).max(10).step(0.5).onChange(() => generatedPoints())
-gui.add(debugObj, 'diffAngle').min(0.01).max(0.3).step(0.01).onChange(() => generatedPoints())
-gui.add(debugObj, 'diffuse').min(0.5).max(4).step(0.01).onChange(() => generatedPoints())
+// gui.add(pointMat, 'size').min(0.1).max(0.5)
+// gui.add(debugObj, 'maxLength').min(1).max(10).step(0.5).onChange(() => generatedPoints())
+// gui.add(debugObj, 'diffAngle').min(0.01).max(0.3).step(0.01).onChange(() => generatedPoints())
+// gui.add(debugObj, 'diffuse').min(0.5).max(4).step(0.01).onChange(() => generatedPoints())
 
 function animate(){
   requestAnimationFrame(animate)

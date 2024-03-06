@@ -60,19 +60,21 @@ function generatedPoints(){
 
 generatedPoints()
 const pointMat = new THREE.PointsMaterial({
-  color: 0x8ED6FF,
+  color: 'white',
   map: texture,
+  sizeAttenuation: true,
   size: 0.05,
   transparent: true,
   alphaMap: texture,
   blending: THREE.AdditiveBlending,
-  alphaTest: 0.1
+  alphaTest: 0.1,
+  vertexColors: true
 })
 const pointMesh = new THREE.Points(pointGeo, pointMat)
 scene.add(pointMesh)
 
 const gui = new GUI()
-gui.add(pointMat, 'size').min(0.05).max(0.2)
+gui.add(pointMat, 'size').min(0.1).max(0.5)
 gui.add(debugObj, 'maxLength').min(1).max(10).step(0.5).onChange(() => generatedPoints())
 gui.add(debugObj, 'diffAngle').min(0.01).max(0.3).step(0.01).onChange(() => generatedPoints())
 gui.add(debugObj, 'diffuse').min(0.5).max(4).step(0.01).onChange(() => generatedPoints())

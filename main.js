@@ -67,6 +67,9 @@ const pointMat = new THREE.ShaderMaterial({
   vertexColors: true,
   vertexShader: vertexShaderSource,
   fragmentShader: fragmentShaderSource,
+  uniforms:{
+    uTime: {value: 0},
+  }
 })
 const pointMesh = new THREE.Points(pointGeo, pointMat)
 scene.add(pointMesh)
@@ -77,10 +80,14 @@ const gui = new GUI()
 // gui.add(debugObj, 'diffAngle').min(0.01).max(0.3).step(0.01).onChange(() => generatedPoints())
 // gui.add(debugObj, 'diffuse').min(0.5).max(4).step(0.01).onChange(() => generatedPoints())
 
+const clock = new THREE.Clock()
+
 function animate(){
   requestAnimationFrame(animate)
   renderer.render(scene, camera)
   orbitControls.update()
+  const elapsedTime = clock.getElapsedTime()
+  pointMat.uniforms.uTime.value = elapsedTime
 }
 
 animate()

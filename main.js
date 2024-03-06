@@ -3,6 +3,10 @@ import * as THREE from 'three';
 // import {GUI} from 'three/addons/libs/lil-gui.module.min.js';
 import gsap from 'gsap';
 
+const video = document.getElementById( 'video' );
+video.play();
+const videoTexture = new THREE.VideoTexture( video );
+
 const scene = new THREE.Scene();
 
 // 定义全局参数
@@ -83,12 +87,16 @@ renderer.setSize(size.width, size.height);
 
 const isMobile = window.innerWidth < 768
 
-const torusGeo = new THREE.TorusGeometry(1, 0.4, 16, 100)
+const torusGeo = new THREE.BoxGeometry(2, 2, 2)
+const boxMat = new THREE.MeshBasicMaterial({
+  // map: new THREE.TextureLoader().load('avatar.jpg'),
+  map: videoTexture
+})
 const basicMat = new THREE.MeshToonMaterial({ 
   normalMap: normTexture,
 })
 // gui.addColor(basicMat, 'color')
-const torusMesh = new THREE.Mesh(torusGeo, basicMat)
+const torusMesh = new THREE.Mesh(torusGeo, boxMat)
 const coneGeo = new THREE.ConeGeometry(1, 2, 32)
 const coneMesh = new THREE.Mesh(coneGeo, basicMat)
 coneMesh.position.y = - size.distance

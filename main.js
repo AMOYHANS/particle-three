@@ -2,6 +2,7 @@ import './style.css'
 import * as THREE from 'three';
 // import {GUI} from 'three/addons/libs/lil-gui.module.min.js';
 import gsap from 'gsap';
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 
 // const video = document.getElementById( 'video' );
@@ -17,6 +18,7 @@ const cubeTexture5 = cubeLoader.load('pic5.jpg')
 
 const scene = new THREE.Scene();
 
+
 // 定义全局参数
 const size = {
   width: window.innerWidth,
@@ -26,6 +28,17 @@ const size = {
   distance: 4, // three世界物体之间的距离
   scrollY: 0, // 鼠标滚轮滚动的值
 }
+
+let model = null
+const gltfLoader = new GLTFLoader();
+gltfLoader.load('Duck.gltf', (gltf) => {
+  scene.add(gltf.scene);
+  model = gltf.scene;
+  model.position.y -= size.distance * 5.20;
+})
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+scene.add(ambientLight);
 
 const camera = new THREE.PerspectiveCamera(75, size.width / size.height, 0.1, 1000);
 camera.position.set(0, 3.5, 3.5)
@@ -157,10 +170,10 @@ function animate() {
     meshItem.rotation.y += deltaTime
   }
   camera.position.y = -(size.distance) * (size.scrollY / onsectionLength)
-  const newSection = Math.floor((size.scrollY + document.body.scrollHeight / 6) / onsectionLength)
+  const newSection = Math.floor((size.scrollY + document.body.scrollHeight / 5.5) / onsectionLength)
   if(currentSection !== newSection){
     currentSection = newSection
-    gsap.to(
+    currentSection < 5 && gsap.to(
       sectionMeshes[currentSection].rotation,
       {
         duration: 1.5,
@@ -168,6 +181,10 @@ function animate() {
         y: '+=6',
         z: '+=6',
       })
+  }
+
+  if(model){
+    model.rotation.y += 0.02
   }
 }
 

@@ -3,6 +3,12 @@ body{
     width: 100%;
     height: 100%;
     overflow: hidden;
+    font: 300;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 900;
+    font-style: normal;
+    font-size: 32px;
+    color: coral;
 }
 
 canvas{
@@ -12,4 +18,11 @@ canvas{
     left: 0;
     outline: none;
     z-index: -1;
+}
+
+#txt{
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
